@@ -31,9 +31,9 @@ const isHTMLStencilRouteElement = (elm: Element): elm is HTMLStencilRouteElement
 export class RouteSwitch implements ComponentInterface {
   @Element() el!: HTMLElement;
 
-  @Prop({ context: 'queue'}) queue!: QueueApi;
+  @Prop({ context: 'queue' }) queue!: QueueApi;
 
-  @Prop({reflectToAttr: true}) group: string = getUniqueId();
+  @Prop({ reflectToAttr: true }) group: string = getUniqueId();
   @Prop() scrollTopOffset?: number;
   @Prop() location?: LocationSegments;
   @Prop() routeViewsUpdated?: (options: RouteViewOptions) => void;
@@ -84,7 +84,7 @@ export class RouteSwitch implements ComponentInterface {
     // Set all props on the new active route then wait until it says that it
     // is completed
     const activeChild = this.subscribers[this.activeIndex];
-    if (this.scrollTopOffset) {
+    if (this.scrollTopOffset || this.scrollTopOffset === 0) {
       activeChild.el.scrollTopOffset = this.scrollTopOffset;
     }
     activeChild.el.group = this.group;
@@ -99,7 +99,7 @@ export class RouteSwitch implements ComponentInterface {
             return child.el.style.display = '';
           }
 
-          if (this.scrollTopOffset) {
+          if (this.scrollTopOffset || this.scrollTopOffset === 0) {
             child.el.scrollTopOffset = this.scrollTopOffset;
           }
           child.el.group = this.group;
@@ -119,7 +119,7 @@ export class RouteSwitch implements ComponentInterface {
 
   render() {
     return (
-      <slot/>
+      <slot />
     );
   }
 }
